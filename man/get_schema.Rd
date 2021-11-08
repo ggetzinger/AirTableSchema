@@ -4,7 +4,7 @@
 \alias{get_schema}
 \title{Get AirTable Schema}
 \usage{
-get_schema(api_key, names = NULL)
+get_schema(api_key = NULL, names = NULL)
 }
 \arguments{
 \item{api_key}{AirTable API Key. If not specified, tries to read from

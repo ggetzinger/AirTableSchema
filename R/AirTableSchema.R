@@ -11,7 +11,7 @@
 #' `schema`.
 #' @export
 #'
-get_schema <- function(api_key, names = NULL){
+get_schema <- function(api_key = NULL, names = NULL){
   if (is.null(api_key)) {
     stopifnot("AIRTABLE_API_KEY" %in% names(Sys.getenv()))
     api_key <- Sys.getenv("AIRTABLE_API_KEY")
