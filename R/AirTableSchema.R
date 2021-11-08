@@ -24,7 +24,7 @@ get_schema <- function(api_key, names = NULL){
   schema <- purrr::map_dfr(bases$id, ~base_schema(BaseId = ., api_key))
 
   rst <- dplyr::left_join(bases, schema, by = c("id" = "BaseId")) %>%
-    dplyr::rename("BaseId" = "id")
+    dplyr::rename("BaseId" = "id", "BaseName" = "name")
 
   return(rst)
 }
@@ -103,8 +103,8 @@ parse_schema <- function(x){
 parse_identifiers <- function(x) {
   as_tibble(
     list(
-      "id" = purrr::pluck(x, "id"),
-      "name" = purrr::pluck(x, "name"),
+      "TableId" = purrr::pluck(x, "id"),
+      "TableName" = purrr::pluck(x, "name"),
       "primaryFieldId" = purrr::pluck(x, "primaryFieldId")
     )
   )
@@ -112,10 +112,18 @@ parse_identifiers <- function(x) {
 
 parse_fields <- function(x){
   purrr::map_dfr(x$fields, dplyr::as_tibble) %>%
+    dplyr::rename(
+      "FieldName" = "name",
+      "FieldId" = "id"
+    ) %>%
     tidyr::nest(fields = everything())
 }
 
 parse_views <- function(x){
   purrr::map_dfr(x$views, dplyr::as_tibble) %>%
+    dplyr::rename(
+      "ViewName" = "name",
+      "ViewId" = "id"
+    ) %>%
     tidyr::nest(views = everything())
 }
